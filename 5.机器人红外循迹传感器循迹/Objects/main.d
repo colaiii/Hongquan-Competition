@@ -30,5 +30,5 @@
 .\objects\main.o: .\Library\misc.h
 .\objects\main.o: .\System\Delay.h
 .\objects\main.o: .\Hardware\robot.h
-.\objects\main.o: .\Hardware\Irtracking.h
+.\objects\main.o: .\Hardware\Trace.h
 .\objects\main.o: .\Hardware\Key.h

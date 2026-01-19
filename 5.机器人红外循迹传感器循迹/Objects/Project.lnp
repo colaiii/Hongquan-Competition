@@ -31,6 +31,7 @@
 ".\objects\pwm.o"
 ".\objects\robot.o"
 ".\objects\irtracking.o"
+".\objects\trace.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 --strict --scatter ".\Objects\Project.sct"
