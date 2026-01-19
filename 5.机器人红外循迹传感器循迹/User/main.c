@@ -53,17 +53,14 @@ void Track_Step(void)
         {
             // 如果X4有信号，说明线在极右边，强烈右转
             makerobo_Right(SPEED_TURN, 0);
+			Delay_ms(200);
         }
         else if (s1 == 1)
         {
             // 如果X1有信号，说明线在极左边，强烈左转 (虽然用户说都为0右转，但如果有X1信号不应该右转吧？)
             // 先遵照用户"X2 X3为0时右拐"，但为了防止明显错误，加个判断
             makerobo_Left(SPEED_TURN, 0);
-        }
-        else
-        {
-            // 全白，按照要求右转寻找
-            makerobo_Right(SPEED_TURN, 0);
+			Delay_ms(200);
         }
     }
 }
@@ -178,7 +175,7 @@ int main(void)
             // 这里可能不是90度直角，而是分叉，需要稍微修一点进去
             // 简单处理：认为是路口，执行转向
             // 甚至可以只是稍微 Right(Delay) 让 X2/X3 抓到右边的线
-             Blind_Forward(100); // 稍微往前一点让车身过弯心
+             Blind_Forward(400); // 用户要求：检测到岔路后先直行一会再右转 (可根据车速调整时间)
              Turn_Right_Spin(); // 既然是绕六边形，应该是比较大的弯，或者直接Spin找线
              break;
         }
@@ -262,7 +259,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) 
         { 
-             Blind_Forward(100);
+             Blind_Forward(400); // 用户要求：检测到岔路后先直行一会再右转
              Turn_Right_Spin(); 
              break;
         }
@@ -328,13 +325,29 @@ int main(void)
     // 汇入主路时会有个直角右转 (并入主路)。
     // 我们继续循迹，直到检测到横线。
 
+    // 4. 出内圈并入主路（T字路口右转）
+    // 无论如何，我们先假设内圈出来必然有个 T字口
+    Blind_Forward(200); // 避开进圈线
+    
     while(1)
     {
-        // 普通循迹即可，Track_Step 会处理直角弯（S2=0,S3=0,S4=1时右拐，或者S2=1,S3=0左拐等）
-        // 内圈并入主路时，如果是直角，Track_Step能否处理？
-        // 如果是直角合流，可能需要 Turn_Right_Spin。
-        // 但我们只要检测 Stop Line。
-        
+        Track_Step();
+        // 检测到横线 (T字口)
+        if (Is_Stop_Line()) 
+        {
+            // 这是由于 T字口导致的 StopLine 误判，我们执行右转
+            Blind_Forward(200); // 把车头探出去一点
+            Turn_Right_Spin();  // 右转并入主路
+            break;
+        }
+        Delay_ms(TIME_TICK);
+    }
+    
+    Blind_Forward(100); // 避开T字线
+
+    // ======================== 最后阶段：真·停车 ========================
+    while(1)
+    {
         if (Is_Stop_Line())
         {
             makerobo_brake(0); // 停车
