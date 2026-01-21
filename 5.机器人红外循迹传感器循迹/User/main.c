@@ -151,7 +151,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) // 检测到右侧岔路
         {
-             Blind_Forward(400); 
+             Blind_Forward(800); 
              Turn_Right_Spin(); 
              break;
         }
@@ -191,7 +191,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) 
         { 
-             Blind_Forward(400); 
+             Blind_Forward(800); 
              Turn_Right_Spin(); 
              break;
         }
