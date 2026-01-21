@@ -152,7 +152,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) // 检测到右侧岔路
         {
-             Blind_Forward(1200); 
+             Blind_Forward(2000); 
              Turn_Right_Spin(); 
              break;
         }
@@ -201,7 +201,7 @@ int main(void)
 
     // 盲走一段时间，避开六边形和波浪路
     long safe_time = 0;
-    while(safe_time < BLIND_TIME) // 20秒盲区，只循迹，不判断分叉
+    while(safe_time < BLIND_TIME) // 15秒盲区，只循迹，不判断分叉
     {
         Track_Step();
         Delay_ms(1);
@@ -235,7 +235,7 @@ int main(void)
         if (Is_Stop_Line()) 
         {
             // T字口执行右转
-            Blind_Forward(200); // 把车头探出去一点
+            Blind_Forward(2000); // 把车头探出去一点
             Turn_Right_Spin();  // 右转并入主路
             break;
         }
