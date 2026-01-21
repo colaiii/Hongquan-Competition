@@ -11,7 +11,7 @@ int Lap_Count = 0; // 当前圈数
 #define SPEED_NORMAL 70
 #define SPEED_TURN   70
 #define TIME_TICK    1 // 每次循迹循环的延时(ms)
-#define BLIND_TIME 20000
+#define BLIND_TIME 15000
 
 
 
@@ -90,7 +90,7 @@ void Turn_Right_Spin(void)
 {
     // 先盲转一小会儿脱离当前线
     makerobo_Right(SPEED_TURN, 0);
-    Delay_ms(300); // 根据车速调整
+    Delay_ms(500); // 根据车速调整
 
     // 继续转直到中间传感器检测到线
     while (1)
@@ -152,7 +152,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) // 检测到右侧岔路
         {
-             Blind_Forward(800); 
+             Blind_Forward(1000); 
              Turn_Right_Spin(); 
              break;
         }
@@ -192,7 +192,7 @@ int main(void)
         Track_Step();
         if (X4 == 1) 
         { 
-             Blind_Forward(800); 
+             Blind_Forward(1200); 
              Turn_Right_Spin(); 
              break;
         }
@@ -216,7 +216,6 @@ int main(void)
         
         if (s4 == 1) // 发现右边有路
         {
-            Blind_Forward(100); 
             Turn_Right_Spin();
             break; // 进入内圈模式
         }
