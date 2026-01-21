@@ -11,6 +11,7 @@ int Lap_Count = 0; // 当前圈数
 #define SPEED_NORMAL 70
 #define SPEED_TURN   70
 #define TIME_TICK    1 // 每次循迹循环的延时(ms)
+#define BLIND_TIME 20000
 
 
 
@@ -200,7 +201,7 @@ int main(void)
 
     // 盲走一段时间，避开六边形和波浪路
     long safe_time = 0;
-    while(safe_time < 5000) // 5秒盲区，只循迹，不判断分叉
+    while(safe_time < BLIND_TIME) // 20秒盲区，只循迹，不判断分叉
     {
         Track_Step();
         Delay_ms(1);
